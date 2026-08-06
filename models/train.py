@@ -2,7 +2,7 @@ import os
 import sys
 import json
 import pandas as pd
-from lightgbm import LGBMClassifier
+from sklearn.ensemble import GradientBoostingClassifier
 from shared.ml.pipeline import MLPipeline
 
 def train_project_model():
@@ -23,8 +23,8 @@ def train_project_model():
         target_column=target_column
     )
     
-    estimator = LGBMClassifier(random_seed=42)
-    param_grid = {"n_estimators": [50, 100], "learning_rate": [0.05, 0.1]}
+    estimator = GradientBoostingClassifier(random_state=42)
+    param_grid = {"n_estimators": [50, 100], "max_depth": [3, 5]}
     
     metrics = pipeline.train_and_tune(df, estimator, param_grid)
     

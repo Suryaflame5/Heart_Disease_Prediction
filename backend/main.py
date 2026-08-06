@@ -79,7 +79,7 @@ def predict(data: PredictionInput):
         start_time = time.time()
         df_in = pd.DataFrame([data.dict()])
         pred = model_pkg.predict(df_in)
-        pred_val = float(pred[0]) if isinstance(pred[0], (float, np.float32, np.float64)) else int(pred[0])
+        pred_val = float(pred[0]) if isinstance(pred[0], (float, np.float32, np.float64)) else (int(pred[0]) if isinstance(pred[0], (int, np.integer, np.bool_)) else str(pred[0]))
         prob_val = None
         if hasattr(model_pkg, "predict_proba"):
             try:
@@ -89,7 +89,7 @@ def predict(data: PredictionInput):
                 pass
         latency = (time.time() - start_time) * 1000
         result_payload = {"val": pred_val, "probabilities": prob_val}
-        db.log_prediction("__PROJECT_ID__", data.dict(), result_payload, latency)
+        db.log_prediction("06_Heart_Disease_Prediction", data.dict(), result_payload, latency)
         return {"success": True, "prediction": result_payload, "latency_ms": latency}
         
     except Exception as e:
@@ -108,7 +108,7 @@ async def predict_batch(file: UploadFile = File(...)):
         
         df = pd.read_csv(io.StringIO(contents))
         preds = model_pkg.predict(df)
-        df["Prediction"] = [float(p) if isinstance(p, (float, np.float32, np.float64)) else int(p) for p in preds]
+        df["Prediction"] = [float(p) if isinstance(p, (float, np.float32, np.float64)) else (int(p) if isinstance(p, (int, np.integer, np.bool_)) else str(p)) for p in preds]
         results = df["Prediction"].tolist()
         
         

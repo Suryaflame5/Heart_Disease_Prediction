@@ -112,7 +112,7 @@ class MLPipeline:
             prefixed_grid,
             cv=3,
             scoring=scoring,
-            n_jobs=-1,
+            n_jobs=1,
             error_score='raise'
         )
 

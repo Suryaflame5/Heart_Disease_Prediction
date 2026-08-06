@@ -98,7 +98,7 @@ export default function App() {
       if (data.success) {
         setMetrics(data.metrics);
         showToast('Pipeline training complete! Model updated.', 'success');
-      }} else {
+      } else {
         showToast(data.error || 'Pipeline retraining failed', 'error');
       }
     } catch (err: any) {
@@ -403,7 +403,7 @@ export default function App() {
                 )}
               </div>
               <div className="mt-6 border-t border-white/5 pt-4 text-[10px] text-slate-500 leading-relaxed">
-                Model Engine: LGBMClassifier(random_seed=42)<br />
+                Model Engine: GradientBoostingClassifier(random_state=42)<br />
                 Target: Target
               </div>
             </div>
@@ -615,8 +615,8 @@ export default function App() {
               <div className="p-4 rounded-xl bg-slate-900/40 border border-white/5">
                 <h4 className="text-sm font-bold text-white mb-2">Scikit-learn Estimator Details</h4>
                 <div className="text-xs space-y-1.5 text-slate-300">
-                  <p><strong>Class Reference:</strong> LGBMClassifier(random_seed=42)</p>
-                  <p><strong>Grid Search Params:</strong> {"n_estimators": [50, 100], "learning_rate": [0.05, 0.1]}</p>
+                  <p><strong>Class Reference:</strong> GradientBoostingClassifier(random_state=42)</p>
+                  <p><strong>Grid Search Params:</strong> {'{"n_estimators": [50, 100], "max_depth": [3, 5]}'}</p>
                 </div>
               </div>
             </div>
